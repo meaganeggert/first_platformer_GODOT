@@ -1,0 +1,196 @@
+[gd_scene load_steps=18 format=3 uid="uid://cd48yj31gu8w6"]
+
+[ext_resource type="Texture2D" uid="uid://b4fpslyk35gjc" path="res://art/Legacy-Fantasy - High Forest 2.3/Mob/Snail/Dead-Sheet.png" id="1_8vara"]
+[ext_resource type="Script" path="res://characters/enemies/snail/snail.gd" id="1_bsk04"]
+[ext_resource type="Texture2D" uid="uid://ck6l74akblmsc" path="res://art/Legacy-Fantasy - High Forest 2.3/Mob/Snail/walk-Sheet.png" id="1_o2e7b"]
+[ext_resource type="Script" path="res://characters/enemies/snail/damageable.gd" id="2_vfeu0"]
+[ext_resource type="Script" path="res://characters/characterStateMachine.gd" id="4_8kv3l"]
+[ext_resource type="Script" path="res://characters/state.gd" id="5_86xx3"]
+[ext_resource type="Script" path="res://characters/hitstate.gd" id="6_i4he7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xmqxb"]
+size = Vector2(30, 20)
+
+[sub_resource type="Animation" id="Animation_60kbc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_hls0g"]
+resource_name = "dead"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_8vara")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_6554r"]
+resource_name = "walk"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_o2e7b")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8h1vc"]
+_data = {
+"RESET": SubResource("Animation_60kbc"),
+"dead": SubResource("Animation_hls0g"),
+"walk": SubResource("Animation_6554r")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tsu0g"]
+animation = &"dead"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_l7126"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y1whs"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_c4jpu"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_tgln6"]
+states/dead/node = SubResource("AnimationNodeAnimation_tsu0g")
+states/dead/position = Vector2(590.667, 99.3333)
+states/walk/node = SubResource("AnimationNodeAnimation_l7126")
+states/walk/position = Vector2(370.667, 99.7778)
+transitions = ["Start", "walk", SubResource("AnimationNodeStateMachineTransition_y1whs"), "walk", "dead", SubResource("AnimationNodeStateMachineTransition_c4jpu")]
+
+[node name="snail" type="CharacterBody2D" node_paths=PackedStringArray("hit_state")]
+position = Vector2(125, 96)
+collision_layer = 4
+script = ExtResource("1_bsk04")
+hit_state = NodePath("characterStateMachine/hit")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 5)
+shape = SubResource("RectangleShape2D_xmqxb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_8vara")
+hframes = 8
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_8h1vc")
+}
+
+[node name="damageable" type="Node" parent="."]
+script = ExtResource("2_vfeu0")
+health = 40.0
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_tgln6")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="characterStateMachine" type="Node" parent="." node_paths=PackedStringArray("character", "animation_tree", "current_state")]
+script = ExtResource("4_8kv3l")
+character = NodePath("..")
+animation_tree = NodePath("../AnimationTree")
+current_state = NodePath("wak")
+
+[node name="wak" type="Node" parent="characterStateMachine"]
+script = ExtResource("5_86xx3")
+
+[node name="dead" type="Node" parent="characterStateMachine"]
+script = ExtResource("5_86xx3")
+can_move = false
+
+[node name="hit" type="Node" parent="characterStateMachine" node_paths=PackedStringArray("damageable", "character_state_machine", "dead_state", "return_state")]
+script = ExtResource("6_i4he7")
+damageable = NodePath("../../damageable")
+character_state_machine = NodePath("..")
+dead_state = NodePath("../dead")
+return_state = NodePath("../wak")
+can_move = false
+
+[node name="Timer" type="Timer" parent="characterStateMachine/hit"]
+wait_time = 0.25
+one_shot = true
+
+[node name="ray_detect_floor" type="RayCast2D" parent="."]
+position = Vector2(-19, 0)
+target_position = Vector2(0, 30)
+
+[node name="ray_detect_wall" type="RayCast2D" parent="."]
+rotation = 1.5708
+target_position = Vector2(0, 25)
+
+[connection signal="animation_finished" from="AnimationTree" to="damageable" method="_on_animation_tree_animation_finished"]
+[connection signal="timeout" from="characterStateMachine/hit/Timer" to="characterStateMachine/hit" method="_on_timer_timeout"]

@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfjh80k2f8o7k"]
+
+[ext_resource type="Script" path="res://pickups/shrink_drink.gd" id="1_pifub"]
+[ext_resource type="Texture2D" uid="uid://0isn4ykdsrrt" path="res://megArt/Teacups/32x32/tile003.png" id="2_xf20k"]
+[ext_resource type="AudioStream" uid="uid://u7skpw80ygkd" path="res://sounds/interface/drinking.wav" id="3_tpbce"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bu2ei"]
+size = Vector2(31, 25)
+
+[node name="shrink_drink" type="Area2D"]
+script = ExtResource("1_pifub")
+
+[node name="sprite_drink" type="Sprite2D" parent="."]
+texture = ExtResource("2_xf20k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 2.5)
+shape = SubResource("RectangleShape2D_bu2ei")
+
+[node name="audio_drink" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_tpbce")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

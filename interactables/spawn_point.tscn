@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctuan5vfvvlgb"]
+
+[ext_resource type="Script" path="res://spawnPoint.gd" id="1_ofa2y"]
+[ext_resource type="Texture2D" uid="uid://bwyxehqw7wufa" path="res://megArt/pickUps/4-others/5.png" id="2_v21o0"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y0oas"]
+radius = 117.0
+height = 234.0
+
+[node name="spawnPoint" type="Node2D"]
+script = ExtResource("1_ofa2y")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(5, 7)
+shape = SubResource("CapsuleShape2D_y0oas")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_v21o0")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

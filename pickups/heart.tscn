@@ -1,0 +1,48 @@
+[gd_scene load_steps=9 format=3 uid="uid://ckd00dhbrg41b"]
+
+[ext_resource type="Script" path="res://pickups/heart.gd" id="1_6wufv"]
+[ext_resource type="AudioStream" uid="uid://buciyjn0xapi7" path="res://sounds/interface/bloop.wav" id="3_2afwf"]
+[ext_resource type="Texture2D" uid="uid://b0p5b2uenoai0" path="res://megArt/32x32 In-Game Items Asset Pack/HeartMoving1.png" id="3_o0ffw"]
+[ext_resource type="Texture2D" uid="uid://bl5iloucv2fbs" path="res://megArt/32x32 In-Game Items Asset Pack/HeartMoving2.png" id="4_hr3x2"]
+[ext_resource type="Texture2D" uid="uid://cgjc38xwltxpm" path="res://megArt/32x32 In-Game Items Asset Pack/HeartMoving3.png" id="5_hk5bf"]
+[ext_resource type="Texture2D" uid="uid://bx3hgpei85lrw" path="res://megArt/32x32 In-Game Items Asset Pack/HeartMoving4.png" id="6_tnv5k"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8yf71"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_o0ffw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_hr3x2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_hk5bf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_tnv5k")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f300j"]
+radius = 13.0384
+
+[node name="heart" type="Area2D"]
+script = ExtResource("1_6wufv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_8yf71")
+autoplay = "default"
+frame_progress = 0.208924
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_f300j")
+
+[node name="pickupSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_2afwf")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]

@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://b3h5r1jitce8x"]
+
+[ext_resource type="Texture2D" uid="uid://bn2ljesbadxu4" path="res://megArt/food/food1.png" id="1_lgrxf"]
+[ext_resource type="Script" path="res://pickups/teacup.gd" id="1_wassl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lj1h8"]
+radius = 14.0
+
+[node name="teacup" type="Area2D"]
+script = ExtResource("1_wassl")
+
+[node name="sprite_tea" type="Sprite2D" parent="."]
+texture = ExtResource("1_lgrxf")
+hframes = 14
+vframes = 6
+frame = 21
+
+[node name="collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_lj1h8")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

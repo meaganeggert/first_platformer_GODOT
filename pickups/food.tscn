@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://ciyyrhcudondm"]
+
+[ext_resource type="Script" path="res://pickups/food.gd" id="1_o8dhg"]
+[ext_resource type="Texture2D" uid="uid://bn2ljesbadxu4" path="res://megArt/food/food1.png" id="2_xf4o4"]
+[ext_resource type="AudioStream" uid="uid://b1vtlwknn2in0" path="res://sounds/interface/eating.wav" id="3_sg58r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bu2ei"]
+size = Vector2(31, 25)
+
+[node name="food" type="Area2D"]
+script = ExtResource("1_o8dhg")
+
+[node name="sprite_food" type="Sprite2D" parent="."]
+texture = ExtResource("2_xf4o4")
+hframes = 14
+vframes = 6
+frame = 28
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 2.5)
+shape = SubResource("RectangleShape2D_bu2ei")
+
+[node name="audio_food" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_sg58r")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
